@@ -69,7 +69,7 @@ export function convertToScientificNotation(number) {
 
 export function convertSuffixToNumber(str){
     if (str.length == 0){
-        return null;
+        return str;
     }
     for (let suffix of prefixes) {
         if (str.endsWith(suffix.symbol)) {
@@ -77,7 +77,14 @@ export function convertSuffixToNumber(str){
             return parseFloat(numberStr) * suffix.factor;
         }
     }
-    return parseFloat(str);; // No recognized suffix, parse as regular number
+
+    if (!isNaN(str)){
+        return parseFloat(str);; // No recognized suffix, parse as regular number
+    }
+    else{
+        return null;
+    }
+
 }
 
 export function convertToMetricPrefixes(number) {
@@ -233,9 +240,7 @@ export function calculate(name, currentAmount, current, target){
 
     
     currentAmount = convertSuffixToNumber(currentAmount);
-
-    if (currentAmount != null && currentAmount == false){
-        currentAmount == null;
+    if (currentAmount == null){
         conversionFailed = true;
     }
 
