@@ -145,7 +145,7 @@ function changeResourceText(name, imgAlt) {
 
     // change image
     const image = document.getElementById("resultsImg");
-    image.src = "/images/" + name + ".png";
+    image.src = "./images/" + name + ".png";
     image.alt = imgAlt;
     
     const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "gray" : "white";
