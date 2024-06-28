@@ -63,7 +63,7 @@ export function convertToScientificNotation(number) {
     if (number < 1000000){}
     let exp = Math.floor(Math.log10(number));
     let mantissa = number / Math.pow(10, exp);
-    mantissa = parseFloat(mantissa.toFixed(5)); // Truncate to 3 decimal places
+    mantissa = parseFloat(mantissa.toFixed(3)); // Truncate to 3 decimal places
     return mantissa + "E" + exp;
 }
 
