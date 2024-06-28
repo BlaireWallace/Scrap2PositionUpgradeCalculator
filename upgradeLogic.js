@@ -140,8 +140,8 @@ export function loadPositionLevels(name){
             let preLevel = positionLevels[name]["Current"][i][j];
             let postLevel = positionLevels[name]["Target"][i][j];
 
-            currentArray[i][j].value = preLevel;
-            targetArray[i][j].value = postLevel;
+            currentArray[i][j].value = (preLevel > 0) ? preLevel : null;
+            targetArray[i][j].value = (postLevel > 0) ? postLevel : null;
 
         }
     }
@@ -231,6 +231,9 @@ export function calculate(name, currentAmount, current, target){
         for (let j = 0; j < 4; j++) { // Iterates over columns
             let preLevel = parseInt(currentArray[i][j].value);
             let postLevel = parseInt(targetArray[i][j].value);
+
+            if (isNaN(preLevel)){ preLevel = 0; }
+            if (isNaN(postLevel)){ postLevel = 0; }
 
             if (preLevel > postLevel) {
                 return {"str":"level error"};

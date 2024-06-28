@@ -30,18 +30,24 @@ const postInputValues = [];
 
 inputDivs.forEach(div => {
     const input = div.querySelector('input[type="number"]');;
-    input.value = 0;
+    input.value = null;
 
     if (input.id.slice(0,-2) === "numberP"){
         preInputValues.push(input);
 
         input.addEventListener('input', () => {
+            if (input.value == 0){
+                input.value = null
+            }
             calculate();
         });
        }
     else if (input.id.slice(0,-2) === "numberT"){
         postInputValues.push(input);
         input.addEventListener('input', () => {
+            if (input.value == 0){
+                input.value = null
+            }
             calculate();
         });
        }
@@ -117,17 +123,17 @@ Numberformat.forEach(input => {
 function resetButtonInputs(){
     setAllDiv.forEach(div => {
         const input = div.querySelector('input');
-        input.value = 0;
+        input.value = null;
     })
 
     changeColumnDiv.forEach(div => {
         const input = div.querySelector('input[type="number"]');;
-        input.value = 0;
+        input.value = null;
     });
     
     changeRowDiv.forEach(div => {
         const input = div.querySelector('input[type="number"]');;
-        input.value = 0;
+        input.value = null;
     });
     
 }
@@ -183,12 +189,21 @@ function changeResourceText(name, imgAlt) {
     image.alt = imgAlt;
     
     const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "lightgray" : "white";
-    // change the input color (DO LATER)
     preInputValues.forEach(input => {
         input.style.color = color;
+        input.style.setProperty('--placeholder-color', color);
+        const css = "input[type='number'][id='" + input.id + "']::placeholder { color: " + color + "; }";
+        const style = document.createElement('style');
+        style.textContent = css;
+        document.head.append(style);
     })
     postInputValues.forEach(input => {
         input.style.color = color;
+        input.style.setProperty('--placeholder-color', color);
+        const css = "input[type='number'][id='" + input.id + "']::placeholder { color: " + color + "; }";
+        const style = document.createElement('style');
+        style.textContent = css;
+        document.head.append(style);
     })
 
     resetAllLevels("PCC2");
