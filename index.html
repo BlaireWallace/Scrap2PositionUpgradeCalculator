@@ -13,6 +13,14 @@
             text-align: center;
             background-color: rgb(156, 209, 167);
         }
+
+        #frame h2{
+            position:relative;
+            height: 25%;
+            transform: translate(0%,-135%);
+        }
+
+        /* default screen */
         #content {
             outline: 3px solid transparent;
             display: grid;
@@ -23,13 +31,8 @@
             max-width: 65%;
         }   
 
-        #frame h2{
-            position:relative;
-            height: 25%;
-            transform: translate(0%,-135%);
-        }
-
-        @media screen and (min-width: 760px){
+        @media screen and (min-width: 720px){
+            /* largest the screen can be */
             #content {
             outline: 3px solid transparent;
             display: grid;
@@ -43,7 +46,8 @@
         #content > div {
             display: grid;
             grid-gap: 10px;
-            background-color: rgba(0, 0, 0, .2);
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
             outline-color: rgba(0, 0, 0, 1);
             padding: 20px;
         }
@@ -158,14 +162,16 @@
         .barrelPositions input{
             position: absolute;
             text-align: center;
+            font-size: large;
             color: white;
+            outline: none;
             top: 50%;
             left: 60%;
             transform: translate(-50%,-50%);
-            width: 115%;
+            width: 90%;
             height: 100%;
             background-color: transparent;
-            border: 0px;
+            border: none;
             z-index: 1;
         }
 
@@ -307,7 +313,7 @@
     <!-- Current and Target position frames -->
     <div id="content">
         <div id="frame">
-            <h2>Current Position Levels</h2>
+            <h2 style="text-wrap: nowrap;">Current Position Levels</h2>
             <div class="nested">
                 <!-- change columns -->
                 <div class="changeColumns">
@@ -450,7 +456,7 @@
         </div>
 
         <div id="frame">
-            <h2>Target Position Levels</h2>
+            <h2 style="text-wrap: nowrap;">Target Position Levels</h2>
             <div class="nested">
                 <!-- change columns -->
                 <div class="changeColumns">
