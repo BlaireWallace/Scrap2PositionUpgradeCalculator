@@ -144,9 +144,12 @@ function changeResourceText(name, imgAlt) {
     resultsText.innerText = "";
 
     // change image
+    const imagePath = "./images/" + name + ".png"
     const image = document.getElementById("resultsImg");
-    image.src = "./images/" + name + ".png";
+    image.src = imagePath;
     image.alt = imgAlt;
+
+    console.log(imagePath === "./images/goldenScrap.png");
     
     const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "gray" : "white";
     // change the input color (DO LATER)
