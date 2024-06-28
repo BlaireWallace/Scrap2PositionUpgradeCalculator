@@ -7,6 +7,7 @@ let NumberFormatValue = "";
 
 let positionLevels = {};
 
+
 function getGoldenScrapLevel(level) {
     if (level <= 400) {
         return Math.pow(10, 9) * level;
@@ -47,6 +48,13 @@ function getMagnetLevel(level) {
 
 function getWrenchesLevel(level) {
     return Math.pow(10, 9) * Math.pow(1.075, level - 1) * level;
+}
+
+export function getPositionLevels(){
+    return positionLevels;
+}
+export function updatePositionLevels(value){
+    positionLevels = value;
 }
 export function changeNumberFormatValue(value){
     NumberFormatValue = value;
@@ -143,6 +151,8 @@ export function savePositionLevels(name){
             positionLevels[name]["Target"][i][j] = postLevel.value;
         }
     }
+
+    localStorage.setItem("data", JSON.stringify(positionLevels));
 }
 
 export function initiate(current, target){

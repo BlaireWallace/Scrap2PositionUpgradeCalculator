@@ -3,6 +3,8 @@ import * as upgradeLogic from "./upgradeLogic.js";
 // Current resource logic
 const currencyButtons = document.querySelectorAll('.resourceFolder div');
 const currentAmount = document.getElementById("currentResourceInput");
+const saveDataRadio = document.getElementById("saveData");
+
 let resourceInputText = document.getElementById("currentResourceTxt");
 let currentResource = "goldenScrap";
 let NumberFormat = "";
@@ -68,6 +70,12 @@ setAllDiv.forEach(div => {
     button.addEventListener('click', () => {
       changeAllLevels(button.id,input.value,"PSA");
     });
+
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            changeAllLevels(button.id,input.value,"PSA");
+        }
+    });
 })
 
 // loop through control buttons
@@ -106,6 +114,24 @@ Numberformat.forEach(input => {
     })
 })
 
+function resetButtonInputs(){
+    setAllDiv.forEach(div => {
+        const input = div.querySelector('input');
+        input.value = 0;
+    })
+
+    changeColumnDiv.forEach(div => {
+        const input = div.querySelector('input[type="number"]');;
+        input.value = 0;
+    });
+    
+    changeRowDiv.forEach(div => {
+        const input = div.querySelector('input[type="number"]');;
+        input.value = 0;
+    });
+    
+}
+
 function updateStatus(str,color){
     const statusText = document.getElementById("statusText");
     statusText.innerText = "Status: " + str;
@@ -134,11 +160,18 @@ function changeRowColmnConnection(div){
     button.addEventListener('click', () => {
         changeRowColumnLevelPosition(input.id,input.value);
     });
+    input.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            changeRowColumnLevelPosition(input.id,input.value);
+        }
+    });
 };
 
 function changeResourceText(name, imgAlt) {
     upgradeLogic.savePositionLevels(currentResource);
-
+    // reset all input buttons values
+    resetButtonInputs();
+    
     currentResource = imgAlt;
     resourceInputText.innerText = "Current Resource: " + imgAlt;
     resultsText.innerText = "";
@@ -256,13 +289,13 @@ function displayResults(){
     const extraTxt = document.getElementById("totalAmountText");
     const responseTxt = document.getElementById("enoughTxt");
 
-    if (amountToGet > 0){
+    if (amountToGet != null && amountToGet > 0){
         responseTxt.innerText = (currStrState === "enough") ? "You have enough!" : (currStrState === "more") ? "Total cost: " + upgradeLogic.convertNumberIntoText(amountToGet) + " " + currentResource : "";
     }
     else{
         responseTxt.innerText = "";
     }
-    
+
     if (currStrState === "enough" && amountToGet > 0){
         extraTxt.innerText = "Total cost: " + upgradeLogic.convertNumberIntoText(amountToGet) + " " + currentResource;
     }
@@ -319,7 +352,45 @@ function calculate(){
     displayResults();
 }
 
+function loadData(){
+    var data = JSON.parse(localStorage.getItem("data"));
+    if (data != null){
+        upgradeLogic.updatePositionLevels(data);
+
+        if (data.SaveData != null && data.SaveData != undefined){
+            saveDataRadio.checked = data.SaveData;
+        }
+        else{
+            data.SaveData = saveDataRadio.checked;
+        }
+    }
+    else{
+        data = {"SaveData": saveDataRadio.checked};
+    }
+
+    saveDataRadio.addEventListener("change", () => {
+        data.SaveData = saveDataRadio.checked;
+    })
+}
+
+loadData();
+
 updateStatus("Good", "Clean");
 changeNumberFormat("Suffix");
 upgradeLogic.initiate(preInputValues,postInputValues);
 changeResourceText(currentResource, "Golden Scrap");
+
+
+window.addEventListener("beforeunload", () => {
+    if (saveDataRadio.checked == true){
+        let positionlev = upgradeLogic.getPositionLevels();
+        positionlev.SaveData = saveDataRadio.checked;
+        upgradeLogic.updatePositionLevels(positionlev);
+
+        upgradeLogic.savePositionLevels(currentResource);
+    }
+    else{
+        // delete data 
+        localStorage.removeItem("data");
+    }
+});
