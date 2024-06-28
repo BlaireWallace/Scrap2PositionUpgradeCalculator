@@ -148,8 +148,6 @@ function changeResourceText(name, imgAlt) {
     const image = document.getElementById("resultsImg");
     image.src = imagePath;
     image.alt = imgAlt;
-
-    console.log(imagePath === "./images/goldenScrap.png");
     
     const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "gray" : "white";
     // change the input color (DO LATER)
@@ -257,7 +255,14 @@ function displayResults(){
     
     const extraTxt = document.getElementById("totalAmountText");
     const responseTxt = document.getElementById("enoughTxt");
-    responseTxt.innerText = (currStrState === "enough") ? "You have enough!" : (currStrState === "more") ? "Total cost: " + upgradeLogic.convertNumberIntoText(amountToGet) + " " + currentResource : "";
+
+    if (amountToGet > 0){
+        responseTxt.innerText = (currStrState === "enough") ? "You have enough!" : (currStrState === "more") ? "Total cost: " + upgradeLogic.convertNumberIntoText(amountToGet) + " " + currentResource : "";
+    }
+    else{
+        responseTxt.innerText = "";
+    }
+    
     if (currStrState === "enough" && amountToGet > 0){
         extraTxt.innerText = "Total cost: " + upgradeLogic.convertNumberIntoText(amountToGet) + " " + currentResource;
     }
