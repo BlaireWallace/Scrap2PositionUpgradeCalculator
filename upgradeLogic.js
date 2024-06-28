@@ -74,6 +74,9 @@ export function convertSuffixToNumber(str){
     for (let suffix of prefixes) {
         if (str.endsWith(suffix.symbol)) {
             let numberStr = str.slice(0, -suffix.symbol.length);
+            if (numberStr.length == 0){
+                numberStr = 1;
+            }
             return parseFloat(numberStr) * suffix.factor;
         }
     }
