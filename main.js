@@ -171,7 +171,7 @@ function changeResourceText(name, imgAlt) {
     upgradeLogic.savePositionLevels(currentResource);
     // reset all input buttons values
     resetButtonInputs();
-    
+
     currentResource = imgAlt;
     resourceInputText.innerText = "Current Resource: " + imgAlt;
     resultsText.innerText = "";
@@ -182,7 +182,7 @@ function changeResourceText(name, imgAlt) {
     image.src = imagePath;
     image.alt = imgAlt;
     
-    const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "gray" : "white";
+    const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "lightgray" : "white";
     // change the input color (DO LATER)
     preInputValues.forEach(input => {
         input.style.color = color;
