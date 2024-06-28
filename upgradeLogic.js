@@ -53,6 +53,15 @@ function getWrenchesLevel(level) {
 export function getPositionLevels(){
     return positionLevels;
 }
+export function getResourceInput(name){
+    if (positionLevels[name].CurrentAmount == null){
+        return null;
+    }
+    if (positionLevels[name].CurrentAmount == false){
+        return null;
+    }
+    return positionLevels[name].CurrentAmount;
+}
 export function updatePositionLevels(value){
     positionLevels = value;
 }
@@ -68,9 +77,13 @@ export function convertToScientificNotation(number) {
 }
 
 export function convertSuffixToNumber(str){
-    if (str.length == 0){
-        return str;
+    if (typeof str === "undefined"){
+        return null;
     }
+    if (str != null && str.length == 0 || str == null){
+        return null;
+    }
+
     for (let suffix of prefixes) {
         if (str.endsWith(suffix.symbol)) {
             let numberStr = str.slice(0, -suffix.symbol.length);
@@ -85,7 +98,7 @@ export function convertSuffixToNumber(str){
         return parseFloat(str);; // No recognized suffix, parse as regular number
     }
     else{
-        return null;
+        return false;
     }
 
 }
@@ -145,9 +158,11 @@ export function loadPositionLevels(name){
 
         }
     }
+    
+    
 }
 
-export function savePositionLevels(name){
+export function savePositionLevels(name, currentAmount){
     if (positionLevels[name] == null){
         return;
     }
@@ -160,6 +175,13 @@ export function savePositionLevels(name){
             positionLevels[name]["Current"][i][j] = preLevel.value;
             positionLevels[name]["Target"][i][j] = postLevel.value;
         }
+    }
+
+    if (convertSuffixToNumber(currentAmount) == false){
+        positionLevels[name]["CurrentAmount"] = null
+    }
+    else{
+        positionLevels[name]["CurrentAmount"] = currentAmount;
     }
 
     localStorage.setItem("data", JSON.stringify(positionLevels));
@@ -246,7 +268,7 @@ export function calculate(name, currentAmount, current, target){
 
     
     currentAmount = convertSuffixToNumber(currentAmount);
-    if (currentAmount == null){
+    if (currentAmount == false){
         conversionFailed = true;
     }
 

@@ -174,7 +174,7 @@ function changeRowColmnConnection(div){
 };
 
 function changeResourceText(name, imgAlt) {
-    upgradeLogic.savePositionLevels(currentResource);
+    upgradeLogic.savePositionLevels(currentResource,currentAmount.value);
     // reset all input buttons values
     resetButtonInputs();
 
@@ -211,6 +211,8 @@ function changeResourceText(name, imgAlt) {
 
     amountToGet = 0;
     upgradeLogic.loadPositionLevels(imgAlt);
+    const resourceinputValue = upgradeLogic.getResourceInput(currentResource);
+    currentAmount.value = resourceinputValue;
     calculate();
 }   
 
