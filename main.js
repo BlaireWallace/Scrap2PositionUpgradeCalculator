@@ -1,7 +1,7 @@
 import * as upgradeLogic from "./upgradeLogic.js";
 
 // Current resource logic
-const currencyButtons = document.querySelectorAll('.resourceFolder button');
+const currencyButtons = document.querySelectorAll('.resourceFolder div');
 const currentAmount = document.getElementById("currentResourceInput");
 let resourceInputText = document.getElementById("currentResourceTxt");
 let currentResource = "goldenScrap";
@@ -12,9 +12,12 @@ let currStrState = null;
 let amountCurrentlyLeft = null;
 let conversionFailed = false;
 
-currencyButtons.forEach(button => {
+currencyButtons.forEach(div => {
+    const button = div.querySelector('button');
+    const img = div.querySelector('img');
+
     button.addEventListener('click', () => {
-        changeResourceText(button.name);
+        changeResourceText(button.name, img.alt);
     });
 });
 
@@ -133,18 +136,18 @@ function changeRowColmnConnection(div){
     });
 };
 
-function changeResourceText(name) {
+function changeResourceText(name, imgAlt) {
     upgradeLogic.savePositionLevels(currentResource);
 
-    currentResource = name;
-    resourceInputText.innerText = "Current Resource: " + name;
+    currentResource = imgAlt;
+    resourceInputText.innerText = "Current Resource: " + imgAlt;
     resultsText.innerText = "";
 
     // change image
     const image = document.getElementById("resultsImg");
     image.src = "/images/" + name + ".png";
     
-    const color = (name === "Golden Scrap") ? "orange" : (name === "Star Fragments") ? "yellow" : (name === "Mastery Tokens") ? "orange" : (name === "Magnets") ? "red" : (name === "Wrench") ? "gray" : "white";
+    const color = (currentResource === "Golden Scrap") ? "orange" : (currentResource === "Star Fragments") ? "yellow" : (currentResource === "Mastery Tokens") ? "orange" : (currentResource === "Magnets") ? "red" : (currentResource === "Wrench") ? "gray" : "white";
     // change the input color (DO LATER)
     preInputValues.forEach(input => {
         input.style.color = color;
@@ -157,7 +160,7 @@ function changeResourceText(name) {
     resetAllLevels("POCC2");
 
     amountToGet = 0;
-    upgradeLogic.loadPositionLevels(name);
+    upgradeLogic.loadPositionLevels(imgAlt);
     calculate();
 }   
 
@@ -310,4 +313,4 @@ function calculate(){
 updateStatus("Good", "Clean");
 changeNumberFormat("Suffix");
 upgradeLogic.initiate(preInputValues,postInputValues);
-changeResourceText(currentResource);
+changeResourceText(currentResource, "Golden Scrap");
